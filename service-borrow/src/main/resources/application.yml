@@ -4,5 +4,11 @@ spring:
     url: jdbc:mysql://localhost:3306/cloudstudy
     username: root
     password: "1118"
+  application:
+    name: borrowservice
 server:
   port: 8021
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8801/eureka
