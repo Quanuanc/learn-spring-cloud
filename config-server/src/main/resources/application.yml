@@ -1,0 +1,15 @@
+server:
+  port: 8700
+spring:
+  application:
+    name: configserver
+  cloud:
+    config:
+      server:
+        git:
+          uri: file://${user.home}/Developer/learn/heima/spring-cloud-config-repo
+          default-label: master
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8801/eureka
