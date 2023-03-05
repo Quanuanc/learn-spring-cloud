@@ -1,14 +1,14 @@
 package cheng.service.impl;
 
+import cheng.client.BookClient;
+import cheng.client.UserClient;
 import cheng.entity.Book;
 import cheng.entity.Borrow;
 import cheng.entity.User;
 import cheng.entity.UserBorrowDetail;
 import cheng.mapper.BorrowMapper;
 import cheng.service.BorrowService;
-
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -20,17 +20,18 @@ public class BorrowServiceImpl implements BorrowService {
     @Resource
     BorrowMapper mapper;
 
+    @Resource
+    UserClient userClient;
+
+    @Resource
+    BookClient bookClient;
+
     @Override
     public UserBorrowDetail getUserBorrowDetailByUid(int uid) {
         List<Borrow> borrow = mapper.getBorrowsByUid(uid);
-        RestTemplate template = new RestTemplate();
-        //这里通过调用getForObject来请求其他服务，并将结果自动进行封装
-        //获取User信息
-        User user = template.getForObject("http://localhost:8031/user/"+uid, User.class);
-        //获取每一本书的详细信息
-        List<Book> bookList = borrow
-                .stream()
-                .map(b -> template.getForObject("http://localhost:8011/book/"+b.getBid(), Book.class))
+        User user = userClient.getUserById(uid);
+        List<Book> bookList = borrow.stream()
+                .map(b -> bookClient.getBookById(b.getBid()))
                 .collect(Collectors.toList());
         return new UserBorrowDetail(user, bookList);
     }

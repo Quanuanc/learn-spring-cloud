@@ -4,5 +4,10 @@ spring:
     url: jdbc:mysql://localhost:3306/cloudstudy
     username: root
     password: "1118"
-server:
-  port: 8011
+  application:
+    name: bookservice
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        ephemeral: false
