@@ -1,2 +1,10 @@
 server:
   port: 8031
+spring:
+  cloud:
+    nacos:
+      discovery:
+        namespace: c37ca01e-7448-4d04-9648-8da521f86464
+    sentinel:
+      transport:
+        dashboard: localhost:8858
