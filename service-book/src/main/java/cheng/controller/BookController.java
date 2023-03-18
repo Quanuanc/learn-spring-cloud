@@ -18,8 +18,18 @@ public class BookController {
     BookService service;
 
     @RequestMapping("/book/{bid}")
-    Book findBookById(@PathVariable("bid") int bid){
-        log.info("调用了book服务");
+    Book findBookById(@PathVariable("bid") int bid) {
         return service.getBookById(bid);
+    }
+
+    @RequestMapping("/book/remain/{bid}")
+    public int bookRemain(@PathVariable("bid") int bid) {
+        return service.getRemain(bid);
+    }
+
+    @RequestMapping("/book/borrow/{bid}")
+    public boolean bookBorrow(@PathVariable("bid") int bid) {
+        int remain = service.getRemain(bid);
+        return service.setRemain(bid, remain - 1);
     }
 }

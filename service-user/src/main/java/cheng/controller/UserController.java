@@ -30,4 +30,15 @@ public class UserController {
         log.info("config1 value: {}", hello);
         return service.getUserById(uid);
     }
+
+    @RequestMapping("/user/remain/{uid}")
+    public int getUserBookRemain(@PathVariable("uid") int uid) {
+        return service.getUserBookRemain(uid);
+    }
+
+    @RequestMapping("/user/borrow/{uid}")
+    public boolean userBorrow(@PathVariable("uid") int uid) {
+        int remain = service.getUserBookRemain(uid);
+        return service.setRemain(uid, remain - 1);
+    }
 }
